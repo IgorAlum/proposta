@@ -1,13 +1,10 @@
 import streamlit as st
-st.title("Tecnoperfil - Proposta Automática")
-st.write("Este é o app de geração automática de propostas técnicas e comerciais.")
-import streamlit as st
 import pandas as pd
 from io import BytesIO
 from fpdf import FPDF
 
 st.set_page_config(page_title="Proposta Automática - Extrusão", layout="centered")
-st.title("Tecnoperfil - Proposta Automática")
+st.title("Solicitação de Proposta Automática")
 
 st.header("Informações da Peça")
 area = st.number_input("Área da Peça (cm²)", min_value=0.0, step=0.1)
@@ -64,7 +61,7 @@ if st.button("Gerar Proposta"):
 
         velocidade_puller = velocidade_stem * eficiencia_maquina
         puxada = comprimento_real * cortes_por_tarugo
-        tamanho_tarugo = puxada * 1000  # mm
+        tamanho_tarugo = puxada * 1000
 
         st.success("Proposta Gerada com Sucesso")
         st.markdown(f"**Peso Específico (PE):** {pe:.3f} kg/m")
@@ -111,7 +108,6 @@ if st.button("Gerar Proposta"):
 
         df = pd.DataFrame(dados)
 
-        # Excel
         output_excel = BytesIO()
         with pd.ExcelWriter(output_excel, engine='xlsxwriter') as writer:
             df.to_excel(writer, index=False, sheet_name="Proposta")
@@ -124,7 +120,6 @@ if st.button("Gerar Proposta"):
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
 
-        # PDF
         pdf = FPDF()
         pdf.add_page()
         pdf.set_font("Arial", 'B', 14)
